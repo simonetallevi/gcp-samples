@@ -1,0 +1,5 @@
+indexes:
+ - kind: Contact
+   properties:
+     - name: name
+     - name: email
