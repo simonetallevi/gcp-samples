@@ -39,3 +39,6 @@ if __name__ == '__main__':
         ordered_names = [c.name for c in query]
 
         print(ordered_names)
+
+        entity = Contact.get_by_id("1")
+        print(entity)
