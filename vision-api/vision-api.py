@@ -2,6 +2,8 @@ from google.cloud import vision_v1
 import os
 import proto
 import json
+import zlib
+import binascii
 
 project_id = "bustling-victor-301010"
 topic_id = "test-topic"
@@ -27,8 +29,13 @@ def sample_batch_annotate_files(storage_uri):
 
     response = client.batch_annotate_files(requests=requests)
     json_dict = proto.Message.to_dict(response)
-    with open('example-response.json', 'w') as fp:
-        json.dump(json_dict, fp)
+    output_string = str(binascii.b2a_base64(zlib.compress(json.dumps(json_dict).encode('utf-8'))), "utf-8")
+
+    f = open("example-response.hex.compressed.txt", "w")
+    f.write(output_string)
+    f.close()
+
+    print(zlib.decompress(binascii.a2b_base64(output_string.encode('utf-8'))))
 
 
 if __name__ == '__main__':
